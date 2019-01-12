@@ -1,0 +1,220 @@
+export { default as theme } from "./theme";
+
+import { FullScreenCode } from "mdx-deck/layouts";
+
+![Gatsby Logo](./gatsby.png)
+
+# Gatsby Workshop
+
+### Jan 15, 2019 | Syracuse JS Meetup | Syracuse CoWorks
+
+---
+
+# What is Gatsby?
+
+Static Site Generator built in React & GraphQL
+
+TL;DR: It makes lightning fast sites with modern web technologies 🚀
+
+---
+
+# Who uses it?
+
+- Reactjs.org - The creators of React are using Gatsby.
+- stitchfix.com - Mike Vormwald's employer's public facing site is using Gatsby
+- (Soon) syracuse.io - Mike and I are rewriting it from Hugo into Gatsby
+- More on Gatsby's [Site Showcase](https://www.gatsbyjs.org/showcase/)
+
+---
+
+# Some Notes
+
+- You don't need much of a background with React.
+- I'll go into GraphQL but give fairly small yet concrete examples of how we'll use it.
+- I'm going to focus on key portions of Gatsby & the features people quickly notice.
+- If you understand basic HTML, CSS, JS, I hope you should be able to follow along
+
+---
+
+# Setup
+
+`npx gatsby new my-gatsby-site`
+
+or
+
+[Gatsby on CodeSandBox](https://codesandbox.io/s/github/gatsbyjs/gatsby-starter-default)
+
+---
+
+# Start up the site
+
+`gatsby develop`
+
+What are some interesting things we see?
+
+---
+
+# Some Gatsby magic
+
+- No flash between page loads.
+- The image goes from a low res to a high res as it loads in
+
+---
+
+# Gatsby `<Image>` and `<Link>`
+
+React Components that wrap `<a>` and `<img>` with some enhancements 🎉
+
+---
+
+# Gatsby-link Component
+
+- href -> to
+- Loads pages asynchronously through [Intersection Observer API](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API)
+- Still is an `<a>` tag when rendered out.
+
+---
+
+# Gatsby-image Component
+
+- lazy loading. a 2MB image may be nice but it shouldn't be loaded on first render.
+- Uses the `<picture>` tag. Passes image to fit your viewport.
+- Will render full size image as well using Intersection Observer
+
+---
+
+# Basic Image Component
+
+```js
+import gatsbyAstronaut from "../images/gatsby-astronaut.png";
+
+<Img src={gatsbyAstronaut} />;
+```
+
+We'll improve this later
+
+---
+
+# Creating a new page
+
+Let's play around and add some things
+
+---
+
+# Break
+
+Head to the bathroom, get a drink, relax for a bit.
+
+Be back in 10 minutes
+
+---
+
+![GraphQL logo](./graphql.png)
+
+# GraphQL Intro
+
+Gatsby's main data layer where everything can be sourced from
+
+---
+
+# What is GraphQL?
+
+A data query language developed by Facebook.
+
+Rather than hitting tons of URLs as you do in a REST api, you have one endpoint to create queries from.
+
+---
+
+# Sample Query
+
+```graphql
+{
+  allFile {
+    edges {
+      node {
+        # Data from all files being sourced from the filesystem
+      }
+    }
+  }
+}
+```
+
+Let's explore things with <i>GraphiQL</i>
+
+---
+
+# Where does allFile come from?
+
+Plugins! `gatsby-transformer-filesystem` specifically.
+
+Let's look at `gatsby-config.js` for a deeper look.
+
+---
+
+# Entry for gatsby-source-filesystem
+
+```js
+{
+  resolve: `gatsby-source-filesystem`,
+  options: {
+    name: `images`,
+    path: `${__dirname}/src/images`,
+  },
+}
+```
+
+---
+
+# Let's enhance our Image Component
+
+- Gatsby-transform-sharp: Transformer plugin to take images and transform them with the Sharp image processing Library
+
+---
+
+# Image query
+
+```
+query {
+  placeholderImage: file(relativePath: { eq: "gatsby-astronaut.png" }) {
+    childImageSharp {
+      fluid(maxWidth: 300) {
+        ...GatsbyImageSharpFluid
+      }
+    }
+  }
+}
+```
+
+---
+
+# StaticQuery W/ Gatsby-Image tag
+
+```jsx
+<StaticQuery
+  query={/* Query from last slide */}
+  render={data => {
+    return <Img fluid={data.placeholderImage.childImageSharp.fluid} />;
+  }}
+/>
+```
+
+---
+
+# What else can we do with Plugins?
+
+- Transform local data - [gatsby-transformer-remark](https://www.gatsbyjs.org/packages/gatsby-transformer-remark), [gatsby-mdx](https://www.gatsbyjs.org/packages/gatsby-mdx/), [gatsby-transformer-csv](https://www.gatsbyjs.org/packages/gatsby-transformer-csv)
+- Load from CMSs or APIs - gatsby-source-meetup, gatsby-source-wordpress
+- Add PWA capabilities - gatsby-plugin-offline, gatsby-plugin-manifest
+- And so much more. Currently over 600 plugins for Gatsby
+
+---
+
+```js
+/* Last Slide */
+```
+
+# Resources
+
+- Gatsby Docs: https://www.gatsbyjs.org/docs/
+- Gatsby Plugin Library: https://www.gatsbyjs.org/plugins/
+- @gatsbyjs on Twitter
