@@ -40,7 +40,7 @@ TL;DR: It makes lightning fast sites with modern web technologies 🚀
 
 or
 
-[Gatsby on CodeSandBox](https://codesandbox.io/s/github/gatsbyjs/gatsby-starter-default)
+[Gatsby on Code Sandbox](https://codesandbox.io/s/github/gatsbyjs/gatsby-starter-default)
 
 ---
 
@@ -165,22 +165,26 @@ Let's look at `gatsby-config.js` for a deeper look.
 
 # Let's enhance our Image Component
 
-- Gatsby-transform-sharp: Transformer plugin to take images and transform them with the Sharp image processing Library
+- Gatsby-transform-sharp: Transformer plugin to take images and transform them with the `Sharp` image processing Library
+- allows for custom sizes, lazy loading, svg traces
+- Supports jpg, png. (For gif & svg, load them in manually)
 
 ---
 
 # Image query
 
-```
-query {
-  placeholderImage: file(relativePath: { eq: "gatsby-astronaut.png" }) {
-    childImageSharp {
-      fluid(maxWidth: 300) {
-        ...GatsbyImageSharpFluid
+```js
+const query = graphql`
+  query {
+    placeholderImage: file(relativePath: { eq: "gatsby-astronaut.png" }) {
+      childImageSharp {
+        fluid(maxWidth: 300) {
+          ...GatsbyImageSharpFluid
+        }
       }
     }
   }
-}
+`;
 ```
 
 ---
@@ -200,19 +204,35 @@ query {
 
 # What else can we do with Plugins?
 
-- Transform local data - [gatsby-transformer-remark](https://www.gatsbyjs.org/packages/gatsby-transformer-remark), [gatsby-mdx](https://www.gatsbyjs.org/packages/gatsby-mdx/), [gatsby-transformer-csv](https://www.gatsbyjs.org/packages/gatsby-transformer-csv)
-- Load from CMSs or APIs - gatsby-source-meetup, gatsby-source-wordpress
+- Transform local data - gatsby-transformer-remark, gatsby-mdx, gatsby-transformer-csv
+- Load from CMSs or APIs - gatsby-source-meetup, gatsby-source-wordpress, gatsby-source-contentful
 - Add PWA capabilities - gatsby-plugin-offline, gatsby-plugin-manifest
 - And so much more. Currently over 600 plugins for Gatsby
 
 ---
 
-```js
-/* Last Slide */
-```
+# What did we learn
+
+- Core fundamentals of how Gatsby can make speedy sites
+- Sourcing content from GraphQL apis
+- ability to enhance gatsby with plugins
+
+---
+
+# Want to help out?
+
+As said earlier, Mike and I are developing Syracuse.io with Gatsby. If you'd like to help out, visit https://github.com/syracuseio/syracuseio.
+
+We're willing to pair program if you'd like some help with contributing
+
+---
 
 # Resources
 
 - Gatsby Docs: https://www.gatsbyjs.org/docs/
 - Gatsby Plugin Library: https://www.gatsbyjs.org/plugins/
 - @gatsbyjs on Twitter
+
+---
+
+# Thank you!
