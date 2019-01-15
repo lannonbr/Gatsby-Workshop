@@ -42,11 +42,13 @@ or
 
 [Gatsby on Code Sandbox](https://codesandbox.io/s/github/gatsbyjs/gatsby-starter-default)
 
+Only need a GitHub account to login to Code Sandbox.
+
 ---
 
 # Start up the site
 
-`gatsby develop`
+`gatsby develop` if running locally. Automatically spins up on Code Sandbox
 
 What are some interesting things we see?
 
@@ -61,7 +63,7 @@ What are some interesting things we see?
 
 # Gatsby `<Image>` and `<Link>`
 
-React Components that wrap `<a>` and `<img>` with some enhancements 🎉
+React Components that wrap `<img>` and `<a>` with some enhancements 🎉
 
 ---
 
@@ -70,32 +72,47 @@ React Components that wrap `<a>` and `<img>` with some enhancements 🎉
 - href -> to
 - Loads pages asynchronously through [Intersection Observer API](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API)
 - Still is an `<a>` tag when rendered out.
+- Note: Use Only for internal links. Won't do anything for external links
+
+---
+
+# Async Loading
+
+per-route Code splitting, intersection observer, prefetching? Huh? 🤔
+
+Simplifying all of the jargon, links using `<Link>` will load the content that would load when you click the link even before you click on it.
 
 ---
 
 # Gatsby-image Component
 
-- lazy loading. a 2MB image may be nice but it shouldn't be loaded on first render.
+- lazy loads (Also with Intersection Observer). a high resolution image may be nice but it shouldn't be loaded on first render or on your phone.
 - Uses the `<picture>` tag. Passes image to fit your viewport.
 - Will render full size image as well using Intersection Observer
 
 ---
 
-# Basic Image Component
+# ⚠️ Caveat: only use Gatsby-image with JPG or PNG
 
-```js
-import gatsbyAstronaut from "../images/gatsby-astronaut.png";
+The internals of gatsby-image only enhances JPGs and PNGs.
 
-<Img src={gatsbyAstronaut} />;
+For something like SVG, import it manually given it is already optimized for any viewport.
+
+```jsx
+import astro from '../images/gatsby-astronaut.svg'
+
+return <img src={astro} />
 ```
-
-We'll improve this later
 
 ---
 
-# Creating a new page
+# Let's Explore the starter some more
 
-Let's play around and add some things
+Look around the starter and see what other pages / components are baked into the template.
+
+- error routes (404.js)
+- container components / site-wide components (layout.js, header.js)
+- SEO capabilities (seo.js)
 
 ---
 
@@ -163,9 +180,11 @@ Let's look at `gatsby-config.js` for a deeper look.
 
 ---
 
-# Let's enhance our Image Component
+# Let's learn how to use Gatsby-Image
 
-- Gatsby-transform-sharp: Transformer plugin to take images and transform them with the `Sharp` image processing Library
+Gatsby-Image uses gatsby-transformer-sharp to do the majority of the work
+
+- gatsby-transformer-sharp: Transformer plugin to take images and transform them with the `Sharp` image processing Library
 - allows for custom sizes, lazy loading, svg traces
 - Supports jpg, png. (For gif & svg, load them in manually)
 
@@ -204,9 +223,9 @@ const query = graphql`
 
 # What else can we do with Plugins?
 
-- Transform local data - gatsby-transformer-remark, gatsby-mdx, gatsby-transformer-csv
-- Load from CMSs or APIs - gatsby-source-meetup, gatsby-source-wordpress, gatsby-source-contentful
-- Add PWA capabilities - gatsby-plugin-offline, gatsby-plugin-manifest
+- **Transform local data** - gatsby-transformer-remark, gatsby-mdx, gatsby-transformer-csv
+- **Load content from CMSs or APIs** - gatsby-source-meetup, gatsby-source-wordpress, gatsby-source-contentful
+- **Add PWA capabilities** - gatsby-plugin-offline, gatsby-plugin-manifest
 - And so much more. Currently over 600 plugins for Gatsby
 
 ---
@@ -216,6 +235,7 @@ const query = graphql`
 - Core fundamentals of how Gatsby can make speedy sites
 - Sourcing content from GraphQL apis
 - ability to enhance gatsby with plugins
+- powerful tech built into web platform (`<picture>`, Intersection Observer)
 
 ---
 
