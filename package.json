@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "mdx-deck deck.mdx"
+    "start": "mdx-deck deck.mdx",
+    "build": "mdx-deck build deck.mdx && cp *.png dist/"
   },
   "keywords": [],
   "author": "",
@@ -12,7 +13,5 @@
   "devDependencies": {
     "mdx-deck": "^1.8.2"
   },
-  "dependencies": {
-    "react-syntax-highlighter": "^10.1.2"
-  }
+  "dependencies": {}
 }
